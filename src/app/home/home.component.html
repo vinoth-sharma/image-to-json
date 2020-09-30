@@ -1,0 +1,55 @@
+<main class="container">
+
+<h2>Original Image</h2>
+<div class="panel">
+  <div class="left-panel side">
+    <div
+      class="uploadfilecontainer"
+      (click)="fileInput.click()"
+      appDragDrop
+      (onFileDropped)="uploadFile($event)"
+    >
+      <div class="drag-input-title">Drag & drop / Click to upload file</div>
+      <input
+        hidden
+        type="file"
+        #fileInput
+        (change)="uploadFile($event.target.files)"
+      />
+    </div>
+    <div style="text-align: center;" *ngIf="imgURL">
+      Uploaded image size - {{ selected.width + "*" + selected.height }}
+    </div>
+  </div>
+  <div class="right-panel side">
+    <img [src]="imgURL" alt="" srcset="" class="width100 height100" />
+  </div>
+</div>
+
+<!-- <h2 class="info-head" style="text-align: center;" *ngIf="imgURL">
+  {{ "This is not image. Just table with <td \/\>" }}
+  <span>
+    <button (click)="downloadJson()">download</button>
+  </span>
+</h2> -->
+
+<h2>Extracted Image</h2>
+
+<div class="panel" *ngIf="imagePixelsArr.length">
+  <table>
+    <!-- <tr>
+    <th *ngFor="let title of imagePixelsArr[0];let j=index">
+      {{j}}
+    </th>
+  </tr> -->
+    <tr *ngFor="let row of imagePixelsArr">
+      <td
+        [ngStyle]="{ 'background-color': ele }"
+        *ngFor="let ele of row"
+        title="{{ ele }}"
+      ></td>
+    </tr>
+  </table>
+</div>
+
+</main>
