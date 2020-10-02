@@ -8,7 +8,7 @@ import Jimp from 'jimp';
 })
 export class HomeComponent implements OnInit {
   title = 'image-to-json';
-
+  isExtracting:boolean = false;
   imagePath: any;
   imgURL: any;
 
@@ -25,6 +25,8 @@ export class HomeComponent implements OnInit {
   ngOnInit() {}
 
   uploadFile(event) {
+    this.isExtracting = true;
+    this.imagePixelsArr = [];
     // console.log(event);
     this.selected.file = event[0];
     this.selected.file_extension = event[0].name.split('.').pop();
@@ -109,6 +111,7 @@ export class HomeComponent implements OnInit {
               console.log(this.imagePixelsArr);
             }
           });
+          this.isExtracting = false;
         // Do stuff with the image.
       })
       .catch((err) => {

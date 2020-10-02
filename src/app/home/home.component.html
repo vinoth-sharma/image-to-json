@@ -1,55 +1,72 @@
 <main class="container">
-
-<h2>Original Image</h2>
-<div class="panel">
-  <div class="left-panel side">
-    <div
-      class="uploadfilecontainer"
-      (click)="fileInput.click()"
-      appDragDrop
-      (onFileDropped)="uploadFile($event)"
-    >
-      <div class="drag-input-title">Drag & drop / Click to upload file</div>
-      <input
-        hidden
-        type="file"
-        #fileInput
-        (change)="uploadFile($event.target.files)"
-      />
+  <h2>Original Image</h2>
+  <div class="panel">
+    <div class="left-panel side">
+      <div
+        class="uploadfilecontainer"
+        (click)="fileInput.click()"
+        appDragDrop
+        (onFileDropped)="uploadFile($event)"
+      >
+        <div class="drag-input-title">Drag & drop / Click to upload file</div>
+        <input
+          hidden
+          type="file"
+          #fileInput
+          (change)="uploadFile($event.target.files)"
+        />
+      </div>
+      <div style="text-align: center" *ngIf="imgURL">
+        Uploaded image size - {{ selected.width + "*" + selected.height }}
+      </div>
     </div>
-    <div style="text-align: center;" *ngIf="imgURL">
-      Uploaded image size - {{ selected.width + "*" + selected.height }}
+    <div class="right-panel side">
+      <img [src]="imgURL" alt="" srcset="" class="width100 height100" />
     </div>
   </div>
-  <div class="right-panel side">
-    <img [src]="imgURL" alt="" srcset="" class="width100 height100" />
-  </div>
-</div>
 
-<!-- <h2 class="info-head" style="text-align: center;" *ngIf="imgURL">
+  <!-- <h2 class="info-head" style="text-align: center;" *ngIf="imgURL">
   {{ "This is not image. Just table with <td \/\>" }}
   <span>
     <button (click)="downloadJson()">download</button>
   </span>
 </h2> -->
 
-<h2>Extracted Image</h2>
+  <h2 *ngIf="imagePixelsArr.length && !isExtracting">Extracted Image</h2>
 
-<div class="panel" *ngIf="imagePixelsArr.length">
-  <table>
-    <!-- <tr>
+  <div class="row2 flex" *ngIf="imagePixelsArr.length && !isExtracting">
+    <div class="col1">
+      <table>
+        <!-- <tr>
     <th *ngFor="let title of imagePixelsArr[0];let j=index">
       {{j}}
     </th>
   </tr> -->
-    <tr *ngFor="let row of imagePixelsArr">
-      <td
-        [ngStyle]="{ 'background-color': ele }"
-        *ngFor="let ele of row"
-        title="{{ ele }}"
-      ></td>
-    </tr>
-  </table>
-</div>
-
+        <tr *ngFor="let row of imagePixelsArr">
+          <td
+            [ngStyle]="{ 'background-color': ele }"
+            *ngFor="let ele of row"
+            title="{{ ele }}"
+          ></td>
+        </tr>
+      </table>
+    </div>
+    <div class="col2">
+      <h2>This is not an Image.</h2>
+      <ul>
+        <li>This is table with background color filled on it!</li>
+        <li>
+          Hover on table to see the background color of the particular cell.
+        </li>
+        <li>
+          <span (click)="downloadJson()">Click Me!</span> to download the table
+          Json to have a look on it.
+        </li>
+        <li>This table has been resized with max of 600*600 based on orientation to overcome performance issue.</li>
+      </ul>
+    </div>
+  </div>
+  <div style="text-align: center" *ngIf="isExtracting">
+    <img src="/assets/extract2.gif" alt="" srcset="" />
+  </div>
 </main>

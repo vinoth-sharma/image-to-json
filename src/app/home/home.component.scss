@@ -4,7 +4,7 @@
   justify-content: space-around;
 }
 
-  // file upload directive css
+// file upload directive css
 .drag-input-title {
   font-size: 20px;
   color: #208adb;
@@ -25,7 +25,7 @@
 
 .uploadfilecontainer:hover {
   cursor: pointer;
-  background-color: #9ecbec !important;
+  background-color: #c0def3 !important;
   opacity: 0.8;
 }
 
@@ -53,12 +53,40 @@ td {
   justify-content: center;
   align-items: center;
 }
-.container{
-  margin : 2em;
+.container {
+  margin: 2em;
 }
-.width100{
+.width100 {
   max-width: 100%;
 }
-.height100{
+.height100 {
   max-height: 35vh;
+}
+h2 {
+  border-bottom: 1px solid gainsboro;
+  color: grey;
+  padding: 6px 0px;
+}
+
+.row2 {
+  .col2 {
+    line-height: 2;
+  }
+  .col1 {
+    width: 600px;
+  }
+  h2 {
+    text-align: center;
+    color: blue;
+    font-weight: 700;
+    font-family: monospace;
+    text-transform: uppercase;
+  }
+  li span {
+    color: red;
+    font-size: 1.22rem;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
