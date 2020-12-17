@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Jimp from 'jimp';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
@@ -8,17 +9,20 @@ import Jimp from 'jimp';
 })
 export class HomeComponent implements OnInit {
   title = 'image-to-json';
-  isExtracting:boolean = false;
+  supportedFormat = ['png', 'jpg', 'jpeg', 'bmp', 'webp'];
+  isExtracting: boolean = false;
   imagePath: any;
   imgURL: any;
 
-  enableUploadBtn: boolean = false;
+  // enableUploadBtn: boolean = false;
   selected = {
     file: null,
     file_extension: '',
     height: null,
     width: null,
   };
+
+  constructor(private _snackBar: MatSnackBar) {}
 
   imagePixelsArr = [];
 
@@ -27,13 +31,35 @@ export class HomeComponent implements OnInit {
   uploadFile(event) {
     this.isExtracting = true;
     this.imagePixelsArr = [];
-    // console.log(event);
     this.selected.file = event[0];
     this.selected.file_extension = event[0].name.split('.').pop();
     this.validateForm();
   }
 
   validateForm() {
+    //image format validation
+    if (
+      !this.supportedFormat.includes(
+        this.selected.file_extension.toLocaleLowerCase()
+      )
+    ) {
+      this.selected = {
+        file: null,
+        file_extension: '',
+        height: null,
+        width: null,
+      };
+      this.imgURL = null;
+      this.isExtracting = false;
+      this._snackBar.open('Please upload valid image format !!!', '', {
+        duration: 5000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      });
+      return;
+    }
+    console.log('--');
+
     if (this.selected.file_extension) {
       var reader = new FileReader();
       reader.readAsDataURL(this.selected.file);
@@ -45,11 +71,10 @@ export class HomeComponent implements OnInit {
           this.getPixelsData(this.imgURL);
         });
       };
-    } else this.enableUploadBtn = false;
+    }
   }
 
   getPixelsData(image) {
-    console.log(image);
     this.imagePixelsArr = [];
     Jimp.read(image)
       .then((image) => {
@@ -106,12 +131,10 @@ export class HomeComponent implements OnInit {
 
             if (x == image.bitmap.width - 1 && y == image.bitmap.height - 1) {
               // image scan finished, do your stuff
-              console.log(image.bitmap);
-
-              console.log(this.imagePixelsArr);
+              // console.log(this.imagePixelsArr);
             }
           });
-          this.isExtracting = false;
+        this.isExtracting = false;
         // Do stuff with the image.
       })
       .catch((err) => {

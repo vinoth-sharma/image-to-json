@@ -71,6 +71,9 @@ h2 {
 .row2 {
   .col2 {
     line-height: 2;
+    h2 {
+      border-bottom: unset;
+    }
   }
   .col1 {
     width: 600px;
